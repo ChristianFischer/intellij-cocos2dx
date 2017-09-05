@@ -1,0 +1,65 @@
+<!--
+  ~ Copyright (C) 2017
+  ~ Christian Fischer
+  ~
+  ~ cocos2dx Support
+  ~
+  ~ This plugin is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either
+  ~ version 3 of the License, or (at your option) any later version.
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General
+  ~ Public License along with this library; if not, write to the
+  ~ Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+  ~ Boston, MA 02110-1301 USA
+  -->
+
+<idea-plugin>
+    <id>de.wieselbau.clion.cocos</id>
+    <name>cocos2dx Support</name>
+    <version>0.1.0</version>
+    <vendor
+            email="baldur@wieselbau.de"
+            url="http://www.bitbucket.com/baldur/clion-clangtidy"
+    >Christian Fischer</vendor>
+
+    <description><![CDATA[
+      Support for cocos2dx framework
+    ]]></description>
+
+    <change-notes><![CDATA[
+    ]]>
+    </change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="171.0"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.clion</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <colorProvider
+                implementation="de.wieselbau.clion.cocos.CocosColorProvider"
+        />
+
+        <lang.foldingBuilder
+                implementationClass="de.wieselbau.clion.cocos.CocosTypesFoldingBuilder"
+                language="ObjectiveC"
+        />
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij.openapi.editor">
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+
+</idea-plugin>
