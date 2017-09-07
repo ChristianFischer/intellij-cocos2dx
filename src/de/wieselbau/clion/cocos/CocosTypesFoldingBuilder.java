@@ -66,9 +66,14 @@ public class CocosTypesFoldingBuilder implements FoldingBuilder {
 				continue;
 			}
 
+			TextRange range = callExpr.getTextRange();
+			if (range.getLength() <= 0) {
+				continue;
+			}
+
 			FoldingDescriptor descriptor = new FoldingDescriptor(
 					callExpr.getNode(),
-					callExpr.getTextRange(),
+					range,
 					group
 			) {
 				@Override
@@ -97,12 +102,17 @@ public class CocosTypesFoldingBuilder implements FoldingBuilder {
 				continue;
 			}
 
+			TextRange range = new TextRange(
+					argumentList.getTextRange().getStartOffset() + 1,
+					argumentList.getTextRange().getEndOffset() - 1
+			);
+			if (range.getLength() <= 0) {
+				continue;
+			}
+
 			FoldingDescriptor descriptor = new FoldingDescriptor(
 					argumentList.getNode(),
-					new TextRange(
-							argumentList.getTextRange().getStartOffset() + 1,
-							argumentList.getTextRange().getEndOffset() - 1
-					),
+					range,
 					group
 			) {
 				@Override
