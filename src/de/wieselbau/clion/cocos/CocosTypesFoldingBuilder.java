@@ -29,10 +29,7 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.FoldingGroup;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.jetbrains.cidr.lang.psi.OCArgumentList;
-import com.jetbrains.cidr.lang.psi.OCCallExpression;
-import com.jetbrains.cidr.lang.psi.OCDeclarator;
-import com.jetbrains.cidr.lang.psi.OCLiteralExpression;
+import com.jetbrains.cidr.lang.psi.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,13 +83,37 @@ public class CocosTypesFoldingBuilder implements FoldingBuilder {
 		}
 
 		for (OCDeclarator declExpr : PsiTreeUtil.findChildrenOfType(astNode.getPsi(), OCDeclarator.class)) {
+			OCLiteralExpression[] arguments = null;
+			TextRange range = null;
+			ASTNode node = null;
+
 			CocosType type = CocosPsiHelper.getTypeOf(declExpr.getType());
 			if (type == null) {
 				continue;
 			}
 
-			OCArgumentList argumentList = declExpr.getArgumentList();
-			OCLiteralExpression[] arguments = CocosPsiHelper.parseLiteralArgumentList(argumentList);
+			{
+				OCArgumentList argumentList = declExpr.getArgumentList();
+				if (argumentList != null) {
+					arguments = CocosPsiHelper.parseLiteralArgumentList(argumentList);
+					node = argumentList.getNode();
+					range = new TextRange(
+							argumentList.getTextRange().getStartOffset() + 1,
+							argumentList.getTextRange().getEndOffset() - 1
+					);
+				}
+
+				OCCompoundInitializer initializerList = declExpr.getInitializerList();
+				if (initializerList != null) {
+					arguments = CocosPsiHelper.parseLiteralArgumentList(initializerList);
+					node = initializerList.getNode();
+					range = new TextRange(
+							initializerList.getTextRange().getStartOffset() + 1,
+							initializerList.getTextRange().getEndOffset() - 1
+					);
+				}
+			}
+
 			if (arguments == null) {
 				continue;
 			}
@@ -102,16 +123,12 @@ public class CocosTypesFoldingBuilder implements FoldingBuilder {
 				continue;
 			}
 
-			TextRange range = new TextRange(
-					argumentList.getTextRange().getStartOffset() + 1,
-					argumentList.getTextRange().getEndOffset() - 1
-			);
 			if (range.getLength() <= 0) {
 				continue;
 			}
 
 			FoldingDescriptor descriptor = new FoldingDescriptor(
-					argumentList.getNode(),
+					node,
 					range,
 					group
 			) {

@@ -22,9 +22,7 @@
 
 package de.wieselbau.clion.cocos;
 
-import com.jetbrains.cidr.lang.psi.OCArgumentList;
-import com.jetbrains.cidr.lang.psi.OCExpression;
-import com.jetbrains.cidr.lang.psi.OCLiteralExpression;
+import com.jetbrains.cidr.lang.psi.*;
 import com.jetbrains.cidr.lang.types.OCType;
 import com.jetbrains.cidr.lang.util.OCElementFactory;
 import org.jetbrains.annotations.NotNull;
@@ -74,6 +72,23 @@ public class CocosPsiHelper {
 	}
 
 
+	public static OCLiteralExpression[] parseLiteralArgumentList(@Nullable OCDeclarator declarator) {
+		if (declarator != null) {
+			OCArgumentList argumentList = declarator.getArgumentList();
+			if (argumentList != null) {
+				return parseLiteralArgumentList(argumentList);
+			}
+
+			OCCompoundInitializer initializer = declarator.getInitializerList();
+			if (initializer != null) {
+				return parseLiteralArgumentList(initializer);
+			}
+		}
+
+		return null;
+	}
+
+
 	/**
 	 * Parses a list of {@code OCLiteralExpression} elements from an {@code OCArgumentList}.
 	 * This will return a list of {@code OCLiteralExpression}, only if all of it's arguments
@@ -84,6 +99,15 @@ public class CocosPsiHelper {
 	public static OCLiteralExpression[] parseLiteralArgumentList(@Nullable OCArgumentList arguments) {
 		if (arguments != null) {
 			return parseLiteralArgumentList(arguments.getArguments());
+		}
+
+		return null;
+	}
+
+
+	public static OCLiteralExpression[] parseLiteralArgumentList(@Nullable OCCompoundInitializer arguments) {
+		if (arguments != null) {
+			return parseLiteralArgumentList(arguments.getInitializerExpressions());
 		}
 
 		return null;

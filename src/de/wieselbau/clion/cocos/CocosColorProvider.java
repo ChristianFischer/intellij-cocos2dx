@@ -84,7 +84,7 @@ public class CocosColorProvider implements ElementColorProvider {
 			OCDeclarator declaratorExpr = (OCDeclarator) psiElement;
 
 			if (CocosPsiHelper.getTypeOf(declaratorExpr.getType()) == CocosType.Color) {
-				return CocosPsiHelper.parseLiteralArgumentList(declaratorExpr.getArgumentList());
+				return CocosPsiHelper.parseLiteralArgumentList(declaratorExpr);
 			}
 		}
 
