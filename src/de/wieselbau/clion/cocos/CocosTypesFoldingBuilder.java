@@ -23,13 +23,13 @@
 package de.wieselbau.clion.cocos;
 
 import com.intellij.lang.ASTNode;
-import com.intellij.lang.folding.FoldingBuilder;
 import com.intellij.lang.folding.FoldingDescriptor;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.FoldingGroup;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.cidr.lang.psi.*;
+import de.wieselbau.clion.cocos.util.FoldingBuilderBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,11 +40,9 @@ import java.util.List;
 /**
  * Folds declarations of some simple types of cocos2dx like Color- or Vector-types
  */
-public class CocosTypesFoldingBuilder implements FoldingBuilder {
-	@NotNull
+public class CocosTypesFoldingBuilder extends FoldingBuilderBase {
 	@Override
-	public FoldingDescriptor[] buildFoldRegions(@NotNull ASTNode astNode, @NotNull Document document) {
-		final FoldingGroup group = FoldingGroup.newGroup("cocos2dx::Color");
+	protected @Nullable List<FoldingDescriptor> collectFoldRegions(@NotNull ASTNode astNode, @NotNull Document document) {
 		List<FoldingDescriptor> descriptors = new ArrayList<>();
 
 		for (OCCallExpression callExpr : PsiTreeUtil.findChildrenOfType(astNode.getPsi(), OCCallExpression.class)) {
@@ -71,7 +69,7 @@ public class CocosTypesFoldingBuilder implements FoldingBuilder {
 			FoldingDescriptor descriptor = new FoldingDescriptor(
 					callExpr.getNode(),
 					range,
-					group
+					FoldingGroup.newGroup(callExpr.getText())
 			) {
 				@Override
 				public String getPlaceholderText() {
@@ -130,7 +128,7 @@ public class CocosTypesFoldingBuilder implements FoldingBuilder {
 			FoldingDescriptor descriptor = new FoldingDescriptor(
 					node,
 					range,
-					group
+					FoldingGroup.newGroup(node.getText())
 			) {
 				@Override
 				public String getPlaceholderText() {
@@ -141,17 +139,6 @@ public class CocosTypesFoldingBuilder implements FoldingBuilder {
 			descriptors.add(descriptor);
 		}
 
-		return descriptors.toArray(new FoldingDescriptor[descriptors.size()]);
-	}
-
-	@Nullable
-	@Override
-	public String getPlaceholderText(@NotNull ASTNode astNode) {
-		return "...";
-	}
-
-	@Override
-	public boolean isCollapsedByDefault(@NotNull ASTNode astNode) {
-		return true;
+		return descriptors;
 	}
 }

@@ -22,7 +22,9 @@
 
 package de.wieselbau.clion.cocos;
 
+import com.intellij.psi.PsiElement;
 import com.jetbrains.cidr.lang.psi.*;
+import com.jetbrains.cidr.lang.types.OCArrayType;
 import com.jetbrains.cidr.lang.types.OCType;
 import com.jetbrains.cidr.lang.util.OCElementFactory;
 import org.jetbrains.annotations.NotNull;
@@ -72,6 +74,59 @@ public class CocosPsiHelper {
 	}
 
 
+	/**
+	 * Checks a given Type, if it matches a char array.
+	 * @param type	A type object.
+	 * @return {@code true} if the type matches a char array, {@code false} otherwise.
+	 */
+	public static boolean isCharArray(@NotNull OCType type) {
+		if (type instanceof OCArrayType) {
+			OCArrayType arrayType = (OCArrayType)type;
+			OCType elementType = arrayType.getArrayElementType();
+
+			if (
+					"char".equals(elementType.getName())
+				||	"const char".equals(elementType.getName())
+			) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * Finds the next node visible in the editor.
+	 * If a given node is inside a macro expansion this function returns the corresponding
+	 * macro call node.
+	 * @param psiElement	The node to be resolved.
+	 * @return Either the original {@param psiElement} or a corresponding macro call node.
+	 */
+	public static @NotNull PsiElement resolveMacroCall(@NotNull PsiElement psiElement) {
+		PsiElement sibling = psiElement.getPrevSibling();
+		if (sibling instanceof OCMacroCall) {
+			OCMacroCall macroCall = (OCMacroCall)sibling;
+			OCReferenceElement macroReference = macroCall.getMacroReferenceElement();
+			PsiElement first = macroCall.getFirstExpansionLeaf();
+			PsiElement last  = macroCall.getLastExpansionLeaf();
+
+			if (first == last) {
+				return macroCall;
+			}
+		}
+
+		return psiElement;
+	}
+
+
+	/**
+	 * Parses a list of {@code OCLiteralExpression} elements from an {@code OCDeclarator}.
+	 * This will return a list of {@code OCLiteralExpression}, only if all of it's arguments
+	 * can be read as literal expressions.
+	 * @param declarator A declarator list.
+	 * @return A list of {@code OCLiteralExpression}, or {@code null}
+	 */
 	public static OCLiteralExpression[] parseLiteralArgumentList(@Nullable OCDeclarator declarator) {
 		if (declarator != null) {
 			OCArgumentList argumentList = declarator.getArgumentList();
@@ -105,6 +160,13 @@ public class CocosPsiHelper {
 	}
 
 
+	/**
+	 * Parses a list of {@code OCLiteralExpression} elements from an {@code OCCompoundInitializer}.
+	 * This will return a list of {@code OCLiteralExpression}, only if all of it's arguments
+	 * can be read as literal expressions.
+	 * @param arguments An argument list to be parsed.
+	 * @return A list of {@code OCLiteralExpression}, or {@code null}
+	 */
 	public static OCLiteralExpression[] parseLiteralArgumentList(@Nullable OCCompoundInitializer arguments) {
 		if (arguments != null) {
 			return parseLiteralArgumentList(arguments.getInitializerExpressions());
@@ -122,7 +184,7 @@ public class CocosPsiHelper {
 	 * @return A list of {@code OCLiteralExpression}, or {@code null}
 	 */
 	public static OCLiteralExpression[] parseLiteralArgumentList(@NotNull java.util.List<OCExpression> arguments) {
-		OCLiteralExpression[] color_arguments = new OCLiteralExpression[arguments.size()];
+		OCLiteralExpression[] color_arguments = null;
 
 		for (int i = 0; i < arguments.size(); i++) {
 			OCExpression expr = arguments.get(i);
@@ -136,6 +198,10 @@ public class CocosPsiHelper {
 						"int".equals(typeName)
 					||	"float".equals(typeName)
 				) {
+					if (color_arguments == null) {
+						color_arguments = new OCLiteralExpression[arguments.size()];
+					}
+
 					color_arguments[i] = litExpr;
 					continue;
 				}

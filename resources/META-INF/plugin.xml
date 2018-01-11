@@ -23,10 +23,10 @@
 <idea-plugin>
     <id>de.wieselbau.clion.cocos</id>
     <name>cocos2dx Support</name>
-    <version>0.1.1</version>
+    <version>0.2.0</version>
     <vendor
             email="baldur@wieselbau.de"
-            url="http://www.bitbucket.com/baldur/clion-clangtidy"
+            url="http://www.bitbucket.com/baldur/clion-cocos2dx"
     >Christian Fischer</vendor>
 
     <description><![CDATA[
@@ -38,13 +38,15 @@
     </change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-    <idea-version since-build="171.0"/>
+    <idea-version since-build="173.0"/>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.clion</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <fileTypeFactory implementation="de.wieselbau.clion.cocos.strings.StringsLanguageFactory" />
+
         <colorProvider
                 implementation="de.wieselbau.clion.cocos.CocosColorProvider"
         />
@@ -52,6 +54,33 @@
         <lang.foldingBuilder
                 implementationClass="de.wieselbau.clion.cocos.CocosTypesFoldingBuilder"
                 language="ObjectiveC"
+        />
+
+        <!--
+        <annotator
+                implementationClass="de.wieselbau.clion.cocos.strings.StringsAnnotatorCpp"
+                language="ObjectiveC"
+        />
+        -->
+
+        <lang.foldingBuilder
+                implementationClass="de.wieselbau.clion.cocos.strings.StringsFoldingBuilderCpp"
+                language="ObjectiveC"
+        />
+
+        <lang.foldingBuilder
+                implementationClass="de.wieselbau.clion.cocos.strings.StringsFoldingBuilderXml"
+                language="XML"
+        />
+
+        <codeInsight.lineMarkerProvider
+                implementationClass="de.wieselbau.clion.cocos.strings.StringsLineMarkerCpp"
+                language="ObjectiveC"
+        />
+
+        <codeInsight.lineMarkerProvider
+                implementationClass="de.wieselbau.clion.cocos.strings.StringsLineMarkerXml"
+                language="XML"
         />
     </extensions>
 
