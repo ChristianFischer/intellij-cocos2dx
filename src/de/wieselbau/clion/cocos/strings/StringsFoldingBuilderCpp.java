@@ -52,7 +52,7 @@ public class StringsFoldingBuilderCpp extends FoldingBuilderBase {
 		List<FoldingDescriptor> descriptors = new ArrayList<>();
 
 		for (OCLiteralExpression literalExpression : PsiTreeUtil.findChildrenOfType(astNode.getPsi(), OCLiteralExpression.class)) {
-			if (CocosPsiHelper.isCharArray(literalExpression.getType())) {
+			if (CocosPsiHelper.isCharArray(literalExpression.getResolvedType())) {
 				PsiElement elementToBeReplaced = CocosPsiHelper.resolveMacroCall(literalExpression);
 				TextRange range = elementToBeReplaced.getTextRange();
 				if (range.getLength() == 0) {

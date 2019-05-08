@@ -191,7 +191,7 @@ public class CocosPsiHelper {
 
 			if (expr instanceof OCLiteralExpression) {
 				OCLiteralExpression litExpr = (OCLiteralExpression) expr;
-				OCType exprType = litExpr.getType();
+				OCType exprType = litExpr.getResolvedType();
 				String typeName = exprType.getName();
 
 				if (

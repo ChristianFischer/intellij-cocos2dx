@@ -75,7 +75,7 @@ public class CocosColorProvider implements ElementColorProvider {
 		if (psiElement instanceof OCCallExpression) {
 			OCCallExpression callExpr = (OCCallExpression) psiElement;
 
-			if (CocosPsiHelper.getTypeOf(callExpr.getType()) == CocosType.Color) {
+			if (CocosPsiHelper.getTypeOf(callExpr.getResolvedType()) == CocosType.Color) {
 				return CocosPsiHelper.parseLiteralArgumentList(callExpr.getArguments());
 			}
 		}

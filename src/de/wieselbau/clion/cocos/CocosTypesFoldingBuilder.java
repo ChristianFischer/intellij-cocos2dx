@@ -46,7 +46,7 @@ public class CocosTypesFoldingBuilder extends FoldingBuilderBase {
 		List<FoldingDescriptor> descriptors = new ArrayList<>();
 
 		for (OCCallExpression callExpr : PsiTreeUtil.findChildrenOfType(astNode.getPsi(), OCCallExpression.class)) {
-			CocosType type = CocosPsiHelper.getTypeOf(callExpr.getType());
+			CocosType type = CocosPsiHelper.getTypeOf(callExpr.getResolvedType());
 			if (type == null) {
 				continue;
 			}

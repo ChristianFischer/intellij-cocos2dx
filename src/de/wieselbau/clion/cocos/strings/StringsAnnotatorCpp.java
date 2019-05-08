@@ -41,7 +41,7 @@ public class StringsAnnotatorCpp implements Annotator {
 
 			OCLiteralExpression literalExpression = (OCLiteralExpression)psiElement;
 
-			if (CocosPsiHelper.isCharArray(literalExpression.getType())) {
+			if (CocosPsiHelper.isCharArray(literalExpression.getResolvedType())) {
 				TextRange range = literalExpression.getTextRange();
 				if (range.getLength() == 0) {
 					return;

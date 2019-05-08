@@ -43,7 +43,7 @@ public class StringsLineMarkerCpp extends RelatedItemLineMarkerProvider {
 
 				OCLiteralExpression literalExpression = (OCLiteralExpression)psiElement;
 
-				if (CocosPsiHelper.isCharArray(literalExpression.getType())) {
+				if (CocosPsiHelper.isCharArray(literalExpression.getResolvedType())) {
 					String textId = literalExpression.getUnescapedLiteralText();
 					String textReplacement = languageIdHelper.findTextId(textId);
 
