@@ -1,3 +1,13 @@
+buildscript {
+    ext.kotlin_version = '1.3.31'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
 plugins {
     id 'org.jetbrains.intellij' version '0.4.8'
 }
@@ -5,9 +15,8 @@ plugins {
 group 'de.wieselbau.clion'
 version '0.2.0'
 
-apply plugin: 'idea'
+apply plugin: 'kotlin'
 apply plugin: 'org.jetbrains.intellij'
-apply plugin: 'java'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -17,28 +26,9 @@ repositories {
     mavenCentral()
 }
 
-idea {
-    module {
-        name = "cocos2dx-support"
-    }
-}
-
-jar {
-    archiveName = "clion-cocos2dx.jar"
-}
-
 intellij {
     type = 'CL'
+    version = 'LATEST-EAP-SNAPSHOT'
     updateSinceUntilBuild = false
-}
-
-
-prepareSandbox {
-}
-
-runIde {
-}
-
-buildPlugin {
 }
 

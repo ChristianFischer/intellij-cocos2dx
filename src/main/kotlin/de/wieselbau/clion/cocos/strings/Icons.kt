@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018
+ * Copyright (C) 2019
  * Christian Fischer
  *
  * cocos2dx Support
@@ -20,18 +20,12 @@
  * Boston, MA 02110-1301 USA
  */
 
-package de.wieselbau.clion.cocos.strings;
+package de.wieselbau.clion.cocos.strings
 
-import com.intellij.openapi.util.IconLoader;
-
-import javax.swing.*;
+import com.intellij.openapi.util.IconLoader
 
 
-public class Icons {
-	public static final Icon FILE_TYPE = IconLoader.getIcon("/images/strings/strings_icon.png");
-	public static final Icon REFERENCE = IconLoader.getIcon("/images/strings/strings_reference.png");
-
-
-	private Icons() {
-	}
+object Icons {
+	val FILE_TYPE = IconLoader.getIcon("/images/strings/strings_icon.png")
+	val REFERENCE = IconLoader.getIcon("/images/strings/strings_reference.png")
 }

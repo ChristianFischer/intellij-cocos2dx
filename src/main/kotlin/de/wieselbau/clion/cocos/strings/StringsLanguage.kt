@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018
+ * Copyright (C) 2019
  * Christian Fischer
  *
  * cocos2dx Support
@@ -20,14 +20,12 @@
  * Boston, MA 02110-1301 USA
  */
 
-package de.wieselbau.clion.cocos.strings;
+package de.wieselbau.clion.cocos.strings
 
-import com.intellij.lang.Language;
+import com.intellij.lang.Language
 
-public class StringsLanguage extends Language {
-	public static final StringsLanguage INSTANCE = new StringsLanguage();
-
-	private StringsLanguage() {
-		super("strings");
+class StringsLanguage private constructor() : Language("strings") {
+	companion object {
+		val INSTANCE = StringsLanguage()
 	}
 }

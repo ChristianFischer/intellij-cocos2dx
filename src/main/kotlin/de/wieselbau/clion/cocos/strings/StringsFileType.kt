@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018
+ * Copyright (C) 2019
  * Christian Fischer
  *
  * cocos2dx Support
@@ -20,15 +20,32 @@
  * Boston, MA 02110-1301 USA
  */
 
-package de.wieselbau.clion.cocos.strings;
+package de.wieselbau.clion.cocos.strings
 
-import com.intellij.openapi.fileTypes.FileTypeConsumer;
-import com.intellij.openapi.fileTypes.FileTypeFactory;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.fileTypes.LanguageFileType
 
-public class StringsLanguageFactory extends FileTypeFactory {
-	@Override
-	public void createFileTypes(@NotNull FileTypeConsumer fileTypeConsumer) {
-		fileTypeConsumer.consume(StringsFileType.INSTANCE, "strings");
+import javax.swing.*
+
+
+class StringsFileType protected constructor() : LanguageFileType(StringsLanguage.INSTANCE) {
+
+	override fun getName(): String {
+		return "Strings File"
+	}
+
+	override fun getDescription(): String {
+		return "Strings File"
+	}
+
+	override fun getDefaultExtension(): String {
+		return "strings"
+	}
+
+	override fun getIcon(): Icon? {
+		return Icons.FILE_TYPE
+	}
+
+	companion object {
+		val INSTANCE = StringsFileType()
 	}
 }

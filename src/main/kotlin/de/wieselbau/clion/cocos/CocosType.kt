@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017
+ * Copyright (C) 2019
  * Christian Fischer
  *
  * cocos2dx Support
@@ -20,43 +20,11 @@
  * Boston, MA 02110-1301 USA
  */
 
-package de.wieselbau.clion.cocos.strings;
-
-import com.intellij.openapi.fileTypes.LanguageFileType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
+package de.wieselbau.clion.cocos
 
 
-public class StringsFileType extends LanguageFileType {
-	public final static StringsFileType INSTANCE = new StringsFileType();
-
-	protected StringsFileType() {
-		super(StringsLanguage.INSTANCE);
-	}
-
-	@NotNull
-	@Override
-	public String getName() {
-		return "Strings File";
-	}
-
-	@NotNull
-	@Override
-	public String getDescription() {
-		return "Strings File";
-	}
-
-	@NotNull
-	@Override
-	public String getDefaultExtension() {
-		return "strings";
-	}
-
-	@Nullable
-	@Override
-	public Icon getIcon() {
-		return Icons.FILE_TYPE;
-	}
+enum class CocosType {
+	Color,
+	Vector,
+	Size
 }

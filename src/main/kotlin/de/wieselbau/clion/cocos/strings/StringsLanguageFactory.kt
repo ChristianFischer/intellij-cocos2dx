@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017
+ * Copyright (C) 2019
  * Christian Fischer
  *
  * cocos2dx Support
@@ -20,11 +20,13 @@
  * Boston, MA 02110-1301 USA
  */
 
-package de.wieselbau.clion.cocos;
+package de.wieselbau.clion.cocos.strings
 
+import com.intellij.openapi.fileTypes.FileTypeConsumer
+import com.intellij.openapi.fileTypes.FileTypeFactory
 
-public enum CocosType {
-	Color,
-	Vector,
-	Size
+class StringsLanguageFactory : FileTypeFactory() {
+	override fun createFileTypes(fileTypeConsumer: FileTypeConsumer) {
+		fileTypeConsumer.consume(StringsFileType.INSTANCE, "strings")
+	}
 }
